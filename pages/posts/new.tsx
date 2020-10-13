@@ -45,16 +45,24 @@ const Textarea = styled.textarea`
 
 const CreateBtn = styled.button`
 	width: 15em;
+
 	margin: auto;
 	padding: 10px;
 	margin-top: 5vh;
+
 	border-radius: 5px;
-	border: 2px solid black;
+	border: none;
+
   color: white;
-	background-color: dodgerblue;
+	background-color: #4da6ff;
+	
   font-size: 16px;
 	font-weight: bold;
 	cursor: pointer;
+
+	&:hover{
+		background-color: dodgerblue;
+	}
 `;
 
 export default function newPost() {

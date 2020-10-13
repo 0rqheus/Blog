@@ -1,26 +1,32 @@
 import axios from 'axios'
+import styled from 'styled-components';
 import { GetServerSideProps } from 'next'
-import Post from '../components/Post';
+import PostModel from '../models/PostModel';
 import Layout from '../components/Layout';
+import PostsList from '../components/PostsList';
 
-export default function Home({post}) {
+const Title = styled.h2`
+  text-align: center;
+  color: #4da6ff;
+`;
+
+export default function Home({posts}: {posts: Array<PostModel>}) {
 
   return (
-    <Layout siteTitle={`Post #${post.id}`}>
-      <Post post={post}/>
+    <Layout siteTitle='Home'>
+      <Title>Recent posts</Title>
+      <PostsList posts={posts}/>
     </Layout>
   );
 }
 
 export const getServerSideProps: GetServerSideProps = async() => {
   const postsResponse  = await axios.get('https://simple-blog-api.crew.red/posts');
-  const lastPostId = postsResponse.data.pop().id;
-
-  const lastPostResponse  = await axios.get(`https://simple-blog-api.crew.red/posts/${lastPostId}?_embed=comments`);
+  const latestPosts = postsResponse.data.slice(-5);
 
   return {
     props: {
-      post: JSON.parse(JSON.stringify(lastPostResponse.data))
+      posts: JSON.parse(JSON.stringify(latestPosts))
     }
   }
 }

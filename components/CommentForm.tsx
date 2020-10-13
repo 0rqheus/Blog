@@ -22,11 +22,18 @@ const Textarea = styled.textarea`
 const CommentBtn = styled.button`
   width: 10em;
   padding: 5px;
+  margin-top: 1vh;
   border-radius: 5px;
   border: 2px solid dodgerblue;
   color: dodgerblue;
   font-size: 16px;
   font-weight: bold;
+  cursor: pointer;
+
+  &:hover {
+		background-color: dodgerblue;
+    color: white;
+	}
 `;
 
 export default function CommentForm({ postId }: { postId: number }) {
