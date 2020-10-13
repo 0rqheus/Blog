@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { GetStaticProps } from 'next'
+import { GetServerSideProps } from 'next'
 import Post from '../components/Post';
 import Layout from '../components/Layout';
 
@@ -12,7 +12,7 @@ export default function Home({post}) {
   );
 }
 
-export const getStaticProps: GetStaticProps = async() => {
+export const getServerSideProps: GetServerSideProps = async() => {
   const postsResponse  = await axios.get('https://simple-blog-api.crew.red/posts');
   const lastPostId = postsResponse.data.pop().id;
 
