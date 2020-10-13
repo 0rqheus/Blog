@@ -1,11 +1,14 @@
 import axios from 'axios'
 import { GetStaticProps } from 'next'
 import Post from '../components/Post';
+import Layout from '../components/Layout';
 
 export default function Home({post}) {
 
   return (
-    <Post post={post}/>
+    <Layout siteTitle={`Post #${post.id}`}>
+      <Post post={post}/>
+    </Layout>
   );
 }
 

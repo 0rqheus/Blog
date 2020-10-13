@@ -1,65 +1,46 @@
-import axios from 'axios';
-import {FormEvent, useState} from "react";
-import Head from 'next/head'
-import Router from 'next/router'
+import styled from 'styled-components';
+import PostModel from '../models/PostModel';
+import CommentForm from './CommentForm';
+import CommentsList from './CommentList';
 
-interface CommentModel {
-    postId: number,
-    body: string
-}
+const PostContainer = styled.div`
+	width: 60%;
+	margin: auto;
+`;
 
-interface PostModel {
-    id: number,
-    title: string,
-    body: string,
-    comments: Array<CommentModel>
-}
+const PostContent = styled.div`
+	margin-bottom: 3vh;
+`;
 
-export default function Post({ post }: {post: PostModel}) {
+const Title = styled.h3`
+	font-size: 1.5em;
+	margin: 30px 0 10px 0;
+	text-align: center;
+	color: #4da6ff;
+`;
 
-    const [comment, setComment] = useState("");
+const Text = styled.p`
+	font-size: 18px;
+	line-height: 150%;
+	word-wrap: break-word;
+  white-space: pre-line;
+`;
 
-    const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
-        event.preventDefault();
+export default function Post({ post }: { post: PostModel }) {
 
-        axios.post('https://simple-blog-api.crew.red/comments', {
-            postId: post.id,
-            body: comment
-        })
-            .then(() => Router.reload()) //window.location.pathname
-            .catch(console.error);
-    }
+	return (
+		<PostContainer>
+			<PostContent>
+				<Title>{post.title}</Title>
+				<Text>{post.body}</Text>
+			</PostContent>
 
-    return (
+			<div>
+				<CommentForm postId={post.id}/>
+				<CommentsList comments={post.comments}/>
+			</div>
 
-        <div>
-            <Head>
-                <title>{`Post #${post.id}`}</title>
-                <link rel="icon" href="/favicon.ico" />
-            </Head>
+		</PostContainer>
 
-            <div>
-                <h3>{post.title}</h3>
-                <p>{post.body}</p>
-
-                <div>
-                    <form onSubmit={handleSubmit}>
-                        <textarea name="comment" value={comment} onChange={(event) => setComment(event.target.value)}></textarea>
-                        <button type="submit">Comment</button>
-                    </form>
-                </div>
-
-                <ul>
-                    {
-                        post.comments?.map(comment => (
-                            <li>
-                                <span>Anonymus: </span>
-                                <p>{comment.body}</p>
-                            </li>
-                        ))
-                    }
-                </ul>
-            </div>
-        </div>
-    );
+	);
 }
