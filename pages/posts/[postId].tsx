@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { GetServerSideProps, GetStaticPaths } from 'next'
+import { GetStaticProps, GetStaticPaths } from 'next'
 import Layout from '../../components/Layout';
 
 import Post from '../../components/Post';
@@ -24,7 +24,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   return { paths, fallback: false };
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getStaticProps: GetStaticProps = async (context) => {
 
   const lastPostResponse  = await axios.get(`https://simple-blog-api.crew.red/posts/${context.params.postId}?_embed=comments`);
 
